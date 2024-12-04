@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-q4_$#hly^uy$r_vry7xy-))+(^liqbty%k_@l99q@t9_z20ti0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".render.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     # 3rd party
     "rest_framework",
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -122,6 +124,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,3 +146,5 @@ CORS_ALLOWED_ORIGINS = (
 
 # Just as CORS is an issue when dealing with a SPA architecture, so too are forms. Django comes with robust CSRF protection that should be added to forms in any Django template, but with a dedicated React front-end setup this protection isn’t inherently available. Fortunately, we can allow specific cross-domain requests from our frontend by setting CSRF_TRUSTED_ORIGINS.
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+
+
